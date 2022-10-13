@@ -62,6 +62,8 @@ for i, k in enumerate(data_of_interest):
         fig.suptitle(f'Apple Health data: processing all available data ({beginning})')
         
         ax[i].plot(data[k]['x'][moving_avg_length-1:],moving_avg,ls='-',color=DoI_colours[i],lw=2)      
+        
+        match_ind = 0 #for post-proc convenience
     else:
         from_date_td = datetime.strptime(from_date, '%Y-%m-%d')
         from_date_td = from_date_td.astimezone()
@@ -98,6 +100,9 @@ for i, k in enumerate(data_of_interest):
     #ax[i].xaxis.set_minor_formatter(mdates.DateFormatter("%d"))
     ax[i].xaxis.grid(True, which='both')
     
+    ax_maxmin_range = np.max(data[k]['y'][match_ind:])-np.min(data[k]['y'][match_ind:])
+    ax[i].set_ylim((np.min(data[k]['y'][match_ind:])-ax_maxmin_range*0.10,
+                    np.max(data[k]['y'][match_ind:])+ax_maxmin_range*0.10))
 
     
 
